@@ -3,12 +3,18 @@ import joblib
 import re
 import nltk
 import sys
+import os
 from nltk.corpus import stopwords
 from langdetect import detect, LangDetectException
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from datetime import datetime
 import pandas as pd
+
+# Debugging: Show current directory and files
+st.write("Current directory:", os.getcwd())
+if os.path.exists('models'):
+    st.write("Files in models:", os.listdir('models'))
 
 nltk.download('stopwords', quiet=True)
 
@@ -69,8 +75,14 @@ with st.sidebar:
 st.title("📰 Advanced News Validator")
 user_input = st.text_area("Paste news content here:", height=300)
 
-vectorizer = joblib.load('vectorizer.pkl')
-model = joblib.load('model.pkl')
+
+try:
+    vectorizer = joblib.load('models/vectorizer.pkl')
+    model = joblib.load('models/model.pkl')
+    st.success("Model loaded successfully!")
+except Exception as e:
+    st.error(f"Error loading model: {str(e)}")
+    st.stop()
 
 if st.button("Analyze"):
     if len(user_input) < 100:
