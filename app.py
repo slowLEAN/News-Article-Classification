@@ -11,10 +11,7 @@ from reportlab.pdfgen import canvas
 from datetime import datetime
 import pandas as pd
 
-# Debugging: Show current directory and files
-st.write("Current directory:", os.getcwd())
-if os.path.exists('models'):
-    st.write("Files in models:", os.listdir('models'))
+
 
 nltk.download('stopwords', quiet=True)
 
